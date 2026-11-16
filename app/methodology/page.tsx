@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { snapshot } from "@/lib/db";
 import { full, longDate } from "@/lib/format";
-import { PageHead } from "@/components/bits";
 import cfg from "@/config/scoring.json";
 
 export const metadata: Metadata = { title: "Methodology" };
@@ -18,8 +17,7 @@ export default function Methodology() {
 
   return (
     <>
-      <PageHead title="Methodology" sub="How accounts are found, how the score is built, and where the data stops. Every weight and threshold on this page is read from the same config file the scoring code uses." />
-      <div className="prose-kr">
+            <div className="prose-kr">
         <h2>Where the data comes from</h2>
         <p>
           All data comes from <a href="https://lunarcrush.com" target="_blank" rel="noreferrer">LunarCrush</a>, which tracks public social posts by topic. Nothing on this site is typed in by hand or estimated by a language model.
@@ -108,13 +106,14 @@ export default function Methodology() {
         <p>The leaderboard can be filtered to creators or to brands and projects. The label is LunarCrush&apos;s own classification of each account, grouped into two buckets. Accounts it has not classified are shown as &quot;Not classified&quot;; none were labelled by hand.</p>
 
         <h2>Share of voice</h2>
-        <p>The comparison with Solana, Sui and Base uses the same 30-day daily topic series as the BNB Chain numbers. Tickers are compared with tickers and chain names with chain names. Plain words that also match unrelated posts (&quot;base&quot;, &quot;sui&quot;, &quot;bnb&quot;) are left out. The topic list is in config/competitors.json.</p>
+        <p>The comparison with Solana, Sui and Base uses the same 30-day daily topic series as the BNB Chain numbers. Tickers are compared with tickers and chain names with chain names. Plain words that also match unrelated posts (&quot;base&quot;, &quot;sui&quot;, &quot;bnb&quot;) are left out. Base has no token, so it appears only in the chain-name table, and Solana&apos;s name and ticker are one merged series, which makes its row the widest net. People rarely write &quot;Sui network&quot; or &quot;Base chain&quot; in full, so the chain-name table understates those chains. The topic list is in config/competitors.json.</p>
 
         <h2>Media coverage</h2>
         <p>Headlines come from Google News search feeds for &quot;BNB Chain&quot;, &quot;BNB Smart Chain&quot; and &quot;opBNB&quot; over 30 days, deduplicated by outlet and headline. Each search returns at most 100 results, so counts are a floor. The feed has no bylines, so no journalists are listed. Outlets are sorted into four groups by hand in config/outlets.json; that grouping is a judgement call and can be edited.</p>
 
         <h2>Limits of this data</h2>
         <ul>
+          <li><strong>X only for Chinese-language accounts.</strong> Chinese-language crypto audiences are also active on Binance Square, WeChat, Weibo and Telegram, none of which are measured here, so that market is larger than these numbers.</li>
           <li><strong>Top posts only.</strong> The source returns about 100 top posts per day for a topic. An account that posts about BNB Chain often but never reaches a daily top 100 is missing or undercounted. This favours larger accounts in relevance and consistency.</li>
           <li><strong>X only.</strong> YouTube, TikTok, Telegram, Binance Square, WeChat and Weibo are not included. This understates Chinese-language and video creators most.</li>
           <li><strong>Rounded engagement.</strong> Post engagement arrives rounded (for example 844.7K), so per-post figures are accurate to about four significant digits.</li>

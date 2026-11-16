@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { extras, mediaSummary, tierLabel, tierOf, TIERS } from "@/lib/extras";
 import { longDate, shortDate } from "@/lib/format";
-import { PageHead, Panel, Stat, StatGrid } from "@/components/bits";
+import { Panel, Stat, StatGrid } from "@/components/bits";
 
 export const metadata: Metadata = { title: "Media coverage" };
 
 export default function Media() {
   const { articles, fetchedAt, queries } = extras.news;
-  if (!articles.length) return <><PageHead title="Media coverage" /><p className="py-10 text-mute">No articles in this snapshot. Run npm run refresh.</p></>;
+  if (!articles.length) return <><p className="py-10 text-mute">No articles in this snapshot. Run npm run refresh.</p></>;
   const by = new Map<string, typeof articles>();
   for (const a of articles) by.set(a.domain || a.outlet, [...(by.get(a.domain || a.outlet) ?? []), a]);
   const ms = mediaSummary();
@@ -27,17 +27,16 @@ export default function Media() {
   const maxOutlet = top[1].length;
   return (
     <>
-      <PageHead title="Who is writing about BNB Chain" sub={<>{articles.length} articles from {outlets.length} outlets, {longDate(first)} to {longDate(articles[0].date)}. Headlines indexed by Google News for {queries.map((q) => `"${q}"`).join(", ")}{fetchedAt ? `, fetched ${longDate(fetchedAt)}` : ""}.</>} />
       <section className="pt-4">
         <StatGrid>
-          <Stat label="Articles found" value={articles.length} note="deduplicated by outlet and headline" />
-          <Stat label="From established crypto press" value={ms.tier1} note={`${ms.aggregator} from aggregators, ${ms.trade} from trade press`} />
-          <Stat label="Most active outlet" value={top[1][0].outlet} note={`${top[1].length} articles, ${((top[1].length / articles.length) * 100).toFixed(0)}% of the total`} />
-          <Stat label="Busiest day" value={shortDate(span.find((s) => s.n === maxDay)!.date)} note={`${maxDay} articles`} />
+          <Stat label="Articles found" value={articles.length} />
+          <Stat label="From established crypto press" value={ms.tier1} />
+          <Stat label="Most active outlet" value={top[1][0].outlet} />
+          <Stat label="Busiest day" value={shortDate(span.find((s) => s.n === maxDay)!.date)} />
         </StatGrid>
       </section>
 
-      <Panel className="mt-4" title="Coverage by kind of outlet" readout="grouped by hand / editable config">
+      <Panel className="mt-4" title="Coverage by kind of outlet">
         <div className="flex h-7 gap-[2px]" role="img" aria-label={tiers.map((x) => `${tierLabel(x.t)} ${x.n}`).join(", ")}>
           {tiers.map((x, i) => (
             <div key={x.t} title={`${tierLabel(x.t)}: ${x.n}`} style={{ flex: x.n, background: ["var(--color-accent)", "#b8923a", "#6f6a5c", "#45423a", "#2c2a25"][i] }} />
@@ -54,7 +53,7 @@ export default function Media() {
       </Panel>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-[2fr_3fr]">
-        <Panel title="Coverage by outlet" readout={`${outlets.length} outlets`} flush>
+        <Panel title="Coverage by outlet" flush>
           <ol className="max-h-[560px] overflow-y-auto">
             {outlets.map(([name, list]) => (
               <li key={name} className="grid grid-cols-[1fr_auto] items-center gap-x-3 border-b border-line/70 px-3 py-2 last:border-0">
@@ -70,7 +69,7 @@ export default function Media() {
         </Panel>
 
         <div className="flex min-w-0 flex-col gap-4">
-          <Panel title="Articles per day" readout={`${shortDate(first)} to ${shortDate(articles[0].date)}`}>
+          <Panel title="Articles per day">
             <div className="flex h-[120px] items-end gap-[2px]" role="img" aria-label={`Articles per day, peaking at ${maxDay}`}>
               {span.map((s) => (
                 <div key={s.date} className="flex h-full flex-1 items-end" title={`${shortDate(s.date)}: ${s.n} articles`}>
@@ -80,7 +79,7 @@ export default function Media() {
             </div>
             <div className="readout mt-1.5 flex justify-between"><span>{shortDate(first)}</span><span>peak {maxDay}</span><span>{shortDate(articles[0].date)}</span></div>
           </Panel>
-          <Panel title="Latest headlines" readout={`${articles.length} total`} flush>
+          <Panel title="Latest headlines" flush>
             <ul className="max-h-[400px] overflow-y-auto">
               {articles.map((a) => (
                 <li key={a.url} className="border-b border-line/70 last:border-0">
@@ -95,14 +94,6 @@ export default function Media() {
         </div>
       </div>
 
-      <Panel className="mt-4" title="What this screen cannot show" readout="limits of the source">
-        <ul className="flex max-w-[80ch] list-disc flex-col gap-1.5 pl-5 text-[13px] text-mute">
-          <li>No journalist names. The feed carries outlet, headline, date and link, with no byline, and none have been filled in.</li>
-          <li>This is a sample. Google News returns at most 100 results per search, so busy outlets are undercounted and the counts are a floor.</li>
-          <li>No reach or tone per article. The outlet grouping above is a manual judgement and can be edited in config/outlets.json.</li>
-          <li>English-language edition only.</li>
-        </ul>
-      </Panel>
     </>
   );
 }

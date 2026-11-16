@@ -38,7 +38,7 @@ const GROUPS = [
 const TITLES: Record<string, string> = { "/": "Overview", "/leaderboard": "Leaderboard", "/rising": "Rising", "/chinese": "Chinese-language", "/shortlist": "Campaign tracker", "/share-of-voice": "Share of voice", "/media": "Media coverage", "/findings": "Findings", "/methodology": "Methodology" };
 const KEY = "kol-radar-sidebar";
 
-export function Shell({ asOf, accounts, posts, footer, children }: { asOf: string; accounts: number; posts: string; footer: React.ReactNode; children: React.ReactNode }) {
+export function Shell({ asOf, footer, children }: { asOf: string; footer: React.ReactNode; children: React.ReactNode }) {
   const path = usePathname();
   const [collapsed, setCollapsed] = useState(false);
   const [open, setOpen] = useState(false);
@@ -98,8 +98,7 @@ export function Shell({ asOf, accounts, posts, footer, children }: { asOf: strin
 
         <nav className="flex-1 overflow-y-auto py-3" aria-label="Sections">
           {GROUPS.map((g) => (
-            <div key={g.name} className="mb-3">
-              <div className="sb-label readout px-[20px] pb-1.5">{g.name}</div>
+            <div key={g.name} className="mb-2 border-b border-line/70 pb-2 last:border-0">
               {g.items.map((l) => {
                 const active = l.href === "/" ? path === "/" : path.startsWith(l.href) || (l.href === "/leaderboard" && path.startsWith("/account/"));
                 return (
@@ -116,14 +115,6 @@ export function Shell({ asOf, accounts, posts, footer, children }: { asOf: strin
         </nav>
 
         <div className="flex-none border-t border-line">
-          <dl className="sb-label readout grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 px-[20px] py-3">
-            <dt>Snapshot</dt>
-            <dd className="text-right text-mute">{asOf}</dd>
-            <dt>Accounts</dt>
-            <dd className="text-right text-mute">{accounts}</dd>
-            <dt>Posts read</dt>
-            <dd className="text-right text-mute">{posts}</dd>
-          </dl>
           <button type="button" onClick={toggle} aria-expanded={!collapsed} aria-controls="sidebar" className="sb-collapse nav-item !mx-0 w-full !rounded-none border-t border-line !border-l-0">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className={collapsed ? "rotate-180" : ""}>
               <path d="M4 4v16M19 12H9M13 8l-4 4 4 4" />
@@ -148,10 +139,9 @@ export function Shell({ asOf, accounts, posts, footer, children }: { asOf: strin
                 <span className="text-dim">/</span>
               </>
             ) : null}
-            <span className="truncate font-medium">{title}</span>
+            {section ? <span className="truncate text-[14px] font-semibold">{title}</span> : <h1 className="truncate text-[14px] font-semibold" style={{ textWrap: "nowrap" }}>{title}</h1>}
           </div>
           <div className="readout ml-auto flex flex-none items-center gap-4">
-            <span className="hidden sm:inline">30-day window</span>
             <span>
               Data as of <span className="text-ink">{asOf}</span>
             </span>
@@ -164,7 +154,7 @@ export function Shell({ asOf, accounts, posts, footer, children }: { asOf: strin
             </button>
           </div>
         </header>
-        <main className="mx-auto w-full max-w-[1360px] flex-1 px-4 pb-14 lg:px-6">{children}</main>
+        <main className="mx-auto w-full max-w-[1360px] flex-1 px-4 pb-14 pt-1 lg:px-6">{children}</main>
         <footer className="border-t border-line bg-bg px-4 py-4 text-[12px] text-mute lg:px-6">{footer}</footer>
       </div>
     </div>

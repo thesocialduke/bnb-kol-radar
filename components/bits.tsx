@@ -60,24 +60,11 @@ export function Sparkline({ values, width = 96, height = 26, label, muted = fals
   );
 }
 
-export function PageHead({ title, sub, children }: { title: string; sub?: React.ReactNode; children?: React.ReactNode }) {
-  return (
-    <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3 border-b border-line pb-4 pt-6">
-      <div className="min-w-0">
-        <h1 className="text-[22px] font-semibold leading-tight tracking-tight">{title}</h1>
-        {sub ? <p className="mt-1 max-w-[72ch] text-[13px] text-mute">{sub}</p> : null}
-      </div>
-      {children}
-    </div>
-  );
-}
-
-export function Stat({ label, value, note }: { label: string; value: React.ReactNode; note?: React.ReactNode }) {
+export function Stat({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div className="min-w-0 bg-panel px-4 py-3">
       <div className="label">{label}</div>
       <div className="num mt-1.5 truncate text-[24px] font-medium leading-none text-ink">{value}</div>
-      {note ? <div className="mt-1.5 text-[12px] text-mute">{note}</div> : null}
     </div>
   );
 }

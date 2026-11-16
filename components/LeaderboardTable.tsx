@@ -156,7 +156,7 @@ export function LeaderboardTable({ rows, lockLang }: { rows: Row[]; lockLang?: s
         </table>
       </div></div>
       <p className="mt-2 text-[12px] text-dim">
-        BNB eng. is engagement on the account&apos;s BNB Chain posts that reached a daily top 100. The anomaly flag is a heuristic estimate, not a verdict on the account.
+        The anomaly flag is a heuristic estimate, not a verdict on the account.
       </p>
     </div>
   );

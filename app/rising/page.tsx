@@ -3,7 +3,7 @@ import Link from "next/link";
 import { snapshot } from "@/lib/db";
 import { compact } from "@/lib/format";
 import { Avatar } from "@/components/Avatar";
-import { Delta, LangTag, PageHead, Sparkline } from "@/components/bits";
+import { Delta, LangTag, Sparkline } from "@/components/bits";
 import { StarButton } from "@/components/shortlist";
 import cfg from "@/config/scoring.json";
 
@@ -14,12 +14,6 @@ export default function Rising() {
   const rising = ranked.filter((a) => a.is_rising).sort((a, b) => (b.growth_pctile ?? 0) - (a.growth_pctile ?? 0) || b.score! - a.score!);
   return (
     <>
-      <PageHead
-        title="Rising"
-        sub={`Accounts under ${compact(cfg.rising.maxFollowers, 0)} followers whose growth momentum is in the top quartile of all tracked accounts and whose anomaly flag is low. These are the ones to approach before their rates climb.`}
-      >
-        <span className="num text-[12px] text-dim">{rising.length} accounts</span>
-      </PageHead>
 
       {rising.length ? (
         <ul className="mt-4 panel bg-panel">

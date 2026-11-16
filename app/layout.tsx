@@ -3,7 +3,7 @@ import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { Shell } from "@/components/Shell";
 import { snapshot } from "@/lib/db";
-import { full, longDate } from "@/lib/format";
+import { longDate } from "@/lib/format";
 import site from "@/config/site.json";
 
 const sans = IBM_Plex_Sans({ variable: "--font-plex-sans", subsets: ["latin"], weight: ["400", "500", "600"] });
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: "#000000" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const { meta, ranked } = snapshot();
+  const { meta } = snapshot();
   const footer = (
     <p>
       Built by{" "}
@@ -37,7 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: `try{if(/[?&]theme=light/.test(location.search)||localStorage.getItem("kol-radar-theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}` }} />
       </head>
       <body>
-        <Shell asOf={longDate(meta.as_of)} accounts={ranked.length} posts={full(Number(meta.corpus_posts))} footer={footer}>
+        <Shell asOf={longDate(meta.as_of)} footer={footer}>
           {children}
         </Shell>
       </body>

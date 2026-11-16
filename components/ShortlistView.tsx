@@ -41,21 +41,19 @@ export function ShortlistView({ rows }: { rows: Row[] }) {
     return (
       <div className="mt-6 rounded-md border border-dashed border-line px-4 py-12 text-center">
         <p className="text-[15px] font-medium">No accounts in the tracker yet</p>
-        <p className="mx-auto mt-1 max-w-[46ch] text-[13px] text-mute">Use the star on any row of the leaderboard or rising list. Accounts you star appear here with status, deal terms, results and notes.</p>
         {(() => {
           const ex = rows.find((r) => r.rising && r.engPerPost);
           if (!ex) return null;
           const fee = 500, posts = 2;
           return (
             <div className="panel mx-auto mt-5 max-w-[520px] bg-panel p-3 text-left">
-              <p className="label mb-2">Example row, not a real deal</p>
+              <p className="label mb-2">Example row with a made-up fee</p>
               <p className="font-medium">{ex.name ?? ex.handle} <span className="num text-[12px] text-dim">@{ex.handle}</span></p>
               <dl className="num mt-2 grid grid-cols-3 gap-2 text-[12px] text-mute">
                 <div><dt className="label">Fee, USD</dt><dd className="text-ink">${fee}</dd></div>
                 <div><dt className="label">Posts agreed</dt><dd className="text-ink">{posts}</dd></div>
                 <div><dt className="label">Est. cost per engagement</dt><dd className="text-ink">${(fee / (posts * ex.engPerPost!)).toFixed(3)}</dd></div>
               </dl>
-              <p className="mt-2 text-[12px] text-mute">The fee is made up for illustration. The estimate uses this account&apos;s real 30-day average of {compact(ex.engPerPost!)} engagements per post.</p>
             </div>
           );
         })()}

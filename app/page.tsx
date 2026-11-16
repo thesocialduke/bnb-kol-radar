@@ -5,7 +5,7 @@ import { compact, full, longDate } from "@/lib/format";
 import { Treemap } from "@/components/Treemap";
 import { TopicChart } from "@/components/GrowthChart";
 import { Avatar } from "@/components/Avatar";
-import { PageHead, Panel, Stat, StatGrid } from "@/components/bits";
+import { Panel, Stat, StatGrid } from "@/components/bits";
 import { extras, mediaSummary } from "@/lib/extras";
 
 export default function Overview() {
@@ -36,16 +36,8 @@ export default function Overview() {
 
   return (
     <>
-      <PageHead
-        title="Who moves BNB Chain conversation on X"
-        sub={
-          <>
-            {full(Number(meta.corpus_posts))} top posts from {full(Number(meta.corpus_creators))} accounts, {longDate(meta.window_start)} to {longDate(meta.as_of)}. The {ranked.length} independent accounts with the most engagement are scored from 0 to 100.
-          </>
-        }
-      />
-
-      <Panel className="mt-4" title="Three things to act on" readout="computed from this snapshot" flush>
+      
+      <Panel className="mt-4" title="Three things to act on" flush>
         <div className="grid gap-px bg-line md:grid-cols-3">
           {lead.map((i) => (
             <article key={i.title} className="flex min-w-0 flex-col bg-panel p-4">
@@ -61,19 +53,18 @@ export default function Overview() {
 
       <section className="pt-4" aria-label="Headline numbers">
         <StatGrid>
-          <Stat label="Accounts scored" value={ranked.length} note={`plus ${officials.length} official voices, unranked`} />
-          <Stat label="Topic engagements, 30d" value={compact(topicEng)} note="all BNB Chain posts, all networks" />
-          <Stat label="Sentiment, 30d average" value={sentiment != null ? `${sentiment.toFixed(0)}%` : "n/a"} note={latest ? `${latest.sentiment}% on ${longDate(latest.date)}` : undefined} />
-          <Stat label="Rising accounts" value={ranked.filter((a) => a.is_rising).length} note="under 50K, top-quartile growth" />
+          <Stat label="Accounts scored" value={ranked.length} />
+          <Stat label="Topic engagements, 30d" value={compact(topicEng)} />
+          <Stat label="Sentiment, 30d average" value={sentiment != null ? `${sentiment.toFixed(0)}%` : "n/a"} />
+          <Stat label="Rising accounts" value={ranked.filter((a) => a.is_rising).length} />
         </StatGrid>
       </section>
 
-      <Panel className="mt-4" title="Mindshare" readout={`top 40 of ${ranked.length} / share of tracked engagement`} flush>
+      <Panel className="mt-4" title="Mindshare" flush>
         <Treemap items={tree} />
-        <p className="border-t border-line px-3 py-2 text-[12px] text-mute">Each tile is one independent account, sized by its share of tracked BNB Chain engagement. Select a tile to open the profile.</p>
       </Panel>
 
-      <Panel className="mt-4" title="Also in the data" readout="computed from this snapshot" flush>
+      <Panel className="mt-4" title="Also in the data" flush>
         <div className="grid gap-px bg-line md:grid-cols-2">
           {also.map((i) => (
             <article key={i.title} className="flex min-w-0 flex-col bg-panel p-4">
@@ -88,7 +79,7 @@ export default function Overview() {
       </Panel>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-[3fr_2fr]">
-        <Panel title="BNB Chain engagement per day" readout="all networks">
+        <Panel title="BNB Chain engagement per day">
           <TopicChart data={topic.map((t) => ({ date: t.date, interactions: t.interactions, sentiment: t.sentiment }))} />
         </Panel>
 
@@ -111,7 +102,7 @@ export default function Overview() {
         </Panel>
       </div>
 
-      <Panel className="mt-4" title="Official voices" readout="listed for context / left out of every ranking" flush>
+      <Panel className="mt-4" title="Official voices" flush>
         <ul className="grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-3">
           {officials.map((a) => (
             <li key={a.handle} className="min-w-0 bg-panel">

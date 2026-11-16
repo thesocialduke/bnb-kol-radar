@@ -43,3 +43,17 @@ No environment variables are needed on Vercel. The snapshot in `data/` is commit
 
 - `content/findings.md`: the Findings page.
 - `config/site.json`: set `xUrl` to your X profile to turn the footer name into a link.
+
+## Screens
+
+Overview, Leaderboard, Rising, Share of voice, Media coverage, Chinese-language, Campaign tracker, Findings, Methodology, and one profile per ranked account. A light or dark view toggle sits in the top bar (`?theme=light` forces light).
+
+## Config
+
+Everything tunable is JSON in `config/`: `scoring.json`, `officials.json`, `competitors.json`, `outlets.json`, `site.json`. Change a file, then run `npm run refresh`.
+
+## For scripts and agents
+
+- `/llms.txt`: plain-text map of the site
+- `/data/leaderboard.json`, `/data/share-of-voice.json`, `/data/media.json`: static JSON built from the same snapshot as the pages
+- `AGENTS.md`: project rules and commands for coding agents

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { extras, type SovRow } from "@/lib/extras";
 import { compact, full, longDate } from "@/lib/format";
-import { PageHead, Panel, Sparkline, Stat, StatGrid } from "@/components/bits";
+import { Panel, Sparkline, Stat, StatGrid } from "@/components/bits";
 
 export const metadata: Metadata = { title: "Share of voice" };
 
@@ -45,7 +45,7 @@ function Table({ rows, caption }: { rows: SovRow[]; caption: string }) {
 
 export default function ShareOfVoice() {
   const { sov } = extras;
-  if (!sov.length) return <><PageHead title="Share of voice" /><p className="py-10 text-mute">No competitor series in this snapshot. Run npm run refresh.</p></>;
+  if (!sov.length) return <><p className="py-10 text-mute">No competitor series in this snapshot. Run npm run refresh.</p></>;
   const tickers = sov.filter((r) => r.kind === "ticker");
   const names = sov.filter((r) => r.kind === "name");
   const bnb = tickers.find((r) => r.self)!;
@@ -56,31 +56,19 @@ export default function ShareOfVoice() {
   const perPost = (r: SovRow) => r.interactions / r.posts;
   return (
     <>
-      <PageHead title="BNB Chain against Solana, Sui and Base" sub={<>Social engagement on each chain&apos;s topic, {longDate(sov[0].from)} to {longDate(sov[0].to)}, all networks. Topics are matched like for like: tickers against tickers, chain names against chain names.</>} />
-      <section className="pt-4">
+            <section className="pt-4">
         <StatGrid>
-          <Stat label="$bnb engagements, 30d" value={compact(bnb.interactions)} note={sol ? `Solana's topic drew ${(sol.interactions / bnb.interactions).toFixed(0)}x as much` : undefined} />
-          <Stat label="$bnb against $sui" value={sui ? `${(bnb.interactions / sui.interactions).toFixed(1)}x` : "n/a"} note={sui ? `${compact(sui.interactions)} for $sui` : undefined} />
-          <Stat label="Engagements per post, $bnb" value={full(Math.round(perPost(bnb)))} note={sol ? `${full(Math.round(perPost(sol)))} for Solana` : undefined} />
-          <Stat label="Sentiment, $bnb" value={bnb.sentiment != null ? `${bnb.sentiment}%` : "n/a"} note={sol?.sentiment != null ? `${sol.sentiment}% Solana, ${sui?.sentiment ?? "n/a"}% $sui` : undefined} />
+          <Stat label="$bnb engagements, 30d" value={compact(bnb.interactions)} />
+          <Stat label="$bnb against $sui" value={sui ? `${(bnb.interactions / sui.interactions).toFixed(1)}x` : "n/a"} />
+          <Stat label="Engagements per post, $bnb" value={full(Math.round(perPost(bnb)))} />
+          <Stat label="Sentiment, $bnb" value={bnb.sentiment != null ? `${bnb.sentiment}%` : "n/a"} />
         </StatGrid>
       </section>
-      <Panel className="mt-4" title="Ticker conversation" readout="cashtag topics / share within this set" flush>
+      <Panel className="mt-4" title="Ticker conversation" flush>
         <Table rows={tickers} caption="Ticker topics compared" />
-        <p className="border-t border-line px-3 py-2 text-[12px] text-mute">Base has no token, so it has no row here. The source merges &ldquo;solana&rdquo; and &ldquo;$sol&rdquo; into one series, so Solana&apos;s row includes every mention of the name and is the widest net in the table.</p>
       </Panel>
-      <Panel className="mt-4" title="Chain-name conversation" readout="posts that name the chain itself" flush>
+      <Panel className="mt-4" title="Chain-name conversation" flush>
         <Table rows={names} caption="Chain-name topics compared" />
-        <p className="border-t border-line px-3 py-2 text-[12px] text-mute">
-          &ldquo;bnb chain&rdquo; drew {compact(bnbName.interactions)} engagements against {otherNames.map((r) => `${compact(r.interactions)} for "${r.label}"`).join(", ")}. People rarely write &ldquo;Sui network&rdquo; or &ldquo;Base chain&rdquo; in full, so this table understates those chains; read it as evidence that &ldquo;BNB Chain&rdquo; is used as a name, not as a size ranking.
-        </p>
-      </Panel>
-      <Panel className="mt-4" title="What is left out, and why" readout="limits of this comparison">
-        <ul className="flex max-w-[80ch] list-disc flex-col gap-1.5 pl-5 text-[13px] text-mute">
-          <li>The plain topics &ldquo;base&rdquo;, &ldquo;sui&rdquo; and &ldquo;bnb&rdquo; are excluded. Each returned far more volume than its ticker (for example over 250M engagements a day for &ldquo;base&rdquo;), which I read as the words matching unrelated posts.</li>
-          <li>Topic definitions are the data provider&apos;s (LunarCrush). Share is share within the rows shown, not share of all crypto conversation.</li>
-          <li>The topic list is in config/competitors.json and can be changed before a refresh.</li>
-        </ul>
       </Panel>
     </>
   );
