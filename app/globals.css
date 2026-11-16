@@ -1,0 +1,339 @@
+@import "tailwindcss";
+
+/* Layout: a dense trading-terminal shell. One sticky bar, full-width tables, mono numerals.
+   Neutrals lean warm toward the single accent, BNB yellow. Single dark theme by choice. */
+@theme inline {
+  --color-bg: #000000;
+  --color-panel: #0a0a09;
+  --color-raise: #161512;
+  --color-line: #262420;
+  --color-ink: #ece8dc;
+  --color-mute: #a39d8c;
+  --color-dim: #7d7768;
+  --color-accent: #f0b90b;
+  --color-up: #4cc38a;
+  --color-down: #f2686b;
+  --color-warn: #f08c4a;
+  --font-sans: var(--font-plex-sans), "PingFang SC", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  background: var(--color-bg);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-dim);
+}
+
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+.field {
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  color: var(--color-ink);
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 13px;
+  min-width: 0;
+}
+.field::placeholder {
+  color: var(--color-dim);
+}
+
+.prose-kr h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 36px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-line);
+}
+.prose-kr h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 22px;
+  margin-bottom: 6px;
+}
+.prose-kr p,
+.prose-kr li {
+  color: var(--color-mute);
+  max-width: 72ch;
+}
+.prose-kr p {
+  margin-bottom: 10px;
+}
+.prose-kr ul,
+.prose-kr ol {
+  padding-left: 20px;
+  margin-bottom: 12px;
+}
+.prose-kr ul {
+  list-style: disc;
+}
+.prose-kr ol {
+  list-style: decimal;
+}
+.prose-kr li {
+  margin-bottom: 6px;
+}
+.prose-kr strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+.prose-kr a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-kr code {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--color-ink);
+  background: var(--color-raise);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+.prose-kr table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 14px;
+  font-size: 13px;
+}
+.prose-kr th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--color-dim);
+  border-bottom: 1px solid var(--color-line);
+  padding: 6px 10px 6px 0;
+}
+.prose-kr td {
+  border-bottom: 1px solid var(--color-line);
+  padding: 6px 10px 6px 0;
+  color: var(--color-mute);
+  vertical-align: top;
+}
+.prose-kr blockquote {
+  border-left: 2px solid var(--color-accent);
+  padding-left: 12px;
+  margin-bottom: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ---------- FUI layer: kept light. Hairline panels with two corner ticks, a faint
+   dot field on the canvas, segmented meters. No glow, no scanlines, no blinking:
+   this is a fixed snapshot, so nothing on screen pretends to be live. ---------- */
+
+.canvas {
+  background-image: radial-gradient(circle, rgb(236 232 220 / 0.045) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.panel {
+  position: relative;
+  border: 1px solid var(--color-line);
+  border-radius: 2px;
+}
+.panel::before,
+.panel::after {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  pointer-events: none;
+  z-index: 2;
+  border: 0 solid rgb(240 185 11 / 0.7);
+}
+.panel::before {
+  top: -1px;
+  left: -1px;
+  border-width: 1px 0 0 1px;
+}
+.panel::after {
+  right: -1px;
+  bottom: -1px;
+  border-width: 0 1px 1px 0;
+}
+.panel-clip {
+  overflow: hidden;
+  border-radius: 1px;
+}
+
+.panel-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--color-line);
+}
+.panel-head h2 {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.readout {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-dim);
+}
+
+/* Segmented meter: 20 cells, filled to the value. */
+.meter {
+  position: relative;
+  display: block;
+  height: 6px;
+  width: 100%;
+  background: var(--color-raise);
+}
+.meter > span {
+  display: block;
+  height: 100%;
+  background: var(--color-accent);
+}
+.meter::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(90deg, transparent 0 calc(5% - 2px), var(--meter-gap, var(--color-panel)) calc(5% - 2px) 5%);
+}
+
+/* App shell */
+.shell {
+  display: grid;
+  grid-template-columns: var(--sb, 220px) minmax(0, 1fr);
+  min-height: 100vh;
+  transition: grid-template-columns 160ms ease;
+}
+.shell[data-collapsed="true"] {
+  --sb: 56px;
+}
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--color-line);
+  background: var(--color-panel);
+  overflow: hidden;
+  z-index: 30;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 34px;
+  padding: 0 10px;
+  margin: 0 8px;
+  border-radius: 2px;
+  color: var(--color-mute);
+  font-size: 13px;
+  white-space: nowrap;
+  border-left: 2px solid transparent;
+}
+.nav-item:hover {
+  color: var(--color-ink);
+  background: var(--color-raise);
+}
+.nav-item[aria-current="page"] {
+  color: var(--color-ink);
+  background: var(--color-raise);
+  border-left-color: var(--color-accent);
+}
+.nav-item svg {
+  flex: none;
+}
+.shell[data-collapsed="true"] .sb-label {
+  display: none;
+}
+.shell[data-collapsed="true"] .nav-item {
+  justify-content: center;
+  padding: 0;
+  gap: 0;
+}
+.sb-scrim {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .shell,
+  .shell[data-collapsed="true"] {
+    grid-template-columns: minmax(0, 1fr);
+    --sb: 248px;
+  }
+  .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: 248px;
+    transform: translateX(-100%);
+    transition: transform 180ms ease;
+  }
+  .shell[data-open="true"] .sidebar {
+    transform: none;
+  }
+  .shell[data-open="true"] .sb-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgb(0 0 0 / 0.6);
+    z-index: 25;
+  }
+  .shell[data-collapsed="true"] .sb-label {
+    display: revert;
+  }
+  .shell[data-collapsed="true"] .nav-item {
+    justify-content: flex-start;
+    padding: 0 10px;
+    gap: 10px;
+  }
+  .sb-collapse {
+    display: none !important;
+  }
+}

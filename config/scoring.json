@@ -1,0 +1,64 @@
+{
+  "windowDays": 30,
+  "maxAccounts": 300,
+  "minFollowers": 1000,
+  "weights": {
+    "relevance": 25,
+    "engagement": 25,
+    "growth": 20,
+    "consistency": 15,
+    "authenticity": 15
+  },
+  "followerTiers": [
+    {
+      "id": "nano",
+      "label": "under 10K",
+      "max": 10000
+    },
+    {
+      "id": "micro",
+      "label": "10K to 50K",
+      "max": 50000
+    },
+    {
+      "id": "mid",
+      "label": "50K to 250K",
+      "max": 250000
+    },
+    {
+      "id": "macro",
+      "label": "250K and up",
+      "max": null
+    }
+  ],
+  "relevance": {
+    "fullCreditPosts": 3
+  },
+  "consistency": {
+    "fullMarksBnbDays": 10,
+    "bnbDaysShare": 0.6,
+    "activeDaysShare": 0.4
+  },
+  "growth": {
+    "followerShare": 0.5,
+    "engagementShare": 0.5
+  },
+  "anomaly": {
+    "engagementResidualZ": 2,
+    "engagementResidualPoints": 30,
+    "followerJumpDailyPct": 8,
+    "followerJumpPoints": 25,
+    "repetitivePct": 60,
+    "repetitivePoints": 20,
+    "spamPct": 10,
+    "spamPoints": 25,
+    "duplicateSimilarity": 0.8,
+    "duplicatePoints": 20,
+    "mediumAt": 25,
+    "highAt": 50
+  },
+  "rising": {
+    "maxFollowers": 50000,
+    "growthPercentileMin": 75
+  }
+}

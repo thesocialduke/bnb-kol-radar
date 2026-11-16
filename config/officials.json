@@ -1,0 +1,28 @@
+{
+  "note": "Accounts listed here, or matching a pattern, are shown as official voices and kept out of every ranking. Edit freely, then run npm run refresh.",
+  "handles": [
+    "BNBCHAIN",
+    "BNBCHAINZH",
+    "BNBChainDevs",
+    "binance",
+    "binancezh",
+    "cz_binance",
+    "heyibinance",
+    "_RichardTeng",
+    "BinanceWallet",
+    "BinanceResearch",
+    "BinanceAcademy",
+    "BinanceUS",
+    "BinanceLabs",
+    "BinanceAfrica",
+    "BinanceHelpDesk",
+    "BinanceAngels",
+    "yzilabs",
+    "TrustWallet",
+    "PancakeSwap",
+    "opBNB",
+    "four_meme_",
+    "Aster_DEX"
+  ],
+  "patterns": ["^bnbchain", "^opbnb"]
+}

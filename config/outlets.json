@@ -1,0 +1,10 @@
+{
+  "note": "Outlet classification by domain, used on the Media coverage screen. This is a manual judgement call; edit freely. Domains not listed show as 'Not classified'.",
+  "tiers": { "tier1": "Established crypto press", "trade": "Crypto trade press", "aggregator": "Aggregator, data or syndication", "owned": "Company page or press release" },
+  "domains": {
+    "theblock.co": "tier1", "thedefiant.io": "tier1", "cryptoslate.com": "tier1", "cryptobriefing.com": "tier1", "ccn.com": "tier1",
+    "tokenpost.com": "trade", "cryptopolitan.com": "trade", "altcoinbuzz.io": "trade", "coinfomania.com": "trade", "crypto-economy.com": "trade", "kriptofoni.com": "trade", "incrypted.com": "trade", "en.bloomingbit.io": "trade", "egw.news": "trade", "egamers.io": "trade", "coingabbar.com": "trade", "cryptoticker.io": "trade", "cointrust.com": "trade",
+    "pluang.com": "aggregator", "tradingview.com": "aggregator", "coinmarketcap.com": "aggregator", "cryptorank.io": "aggregator", "tradersunion.com": "aggregator", "ad-hoc-news.de": "aggregator", "streetinsider.com": "aggregator", "finance.biggo.com": "aggregator", "cryptonews.net": "aggregator", "finance.yahoo.com": "aggregator", "nj1015.com": "aggregator",
+    "openpr.com": "owned", "binance.com": "owned", "onebullex.com": "owned", "stealthex.io": "owned", "research.glassnode.com": "owned"
+  }
+}
