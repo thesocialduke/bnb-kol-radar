@@ -33,12 +33,32 @@ for (const c of cfg.chains) {
   for (const t of c.topics) {
     let rows = [];
     try {
-      rows = parseTable(await cached(path.join(TOPICS, `${t.slug}.ts.md`), `https://lunarcrush.ai/topic/${t.slug}/time-series/1m`));
+      const tf = path.join(TOPICS, `${t.slug}.ts.md`);
+      rows = parseTable(await cached(tf, `https://lunarcrush.ai/topic/${t.slug}/time-series/1m`));
+      // The day the file was fetched is only part of a day; leave it out.
+      const fetched = fs.statSync(tf).mtime.toISOString().slice(0, 10);
+      rows = rows.filter((r) => r.time < fetched);
     } catch (e) {
       console.warn(`  ${t.label}: ${e.message}`);
     }
     const days = rows.map((r) => ({ date: r.time, interactions: num(r.interactions), posts: num(r.posts_created), contributors: num(r.contributors_active), sentiment: num(r.sentiment) })).filter((d) => d.interactions != null);
     if (!days.length) continue;
+    // 24-hour summary page: network split and loudest accounts. Optional; a missing page leaves these empty.
+    let networks = [], creators = [], summaryDate = null;
+    try {
+      const sf = path.join(TOPICS, `${t.slug}.summary.md`);
+      const sm = await cached(sf, `https://lunarcrush.ai/topic/${t.slug}`);
+      summaryDate = fs.statSync(sf).mtime.toISOString().slice(0, 10);
+      const grab = (head) => {
+        const m = sm.match(new RegExp(head + " by network \\(24h\\):\\n((?:[A-Za-z]+: [\\d,]+\\n?)+)"));
+        return m ? Object.fromEntries(m[1].trim().split("\n").map((l) => { const [k, v] = l.split(": "); return [k, Number(v.replace(/,/g, ""))]; })) : {};
+      };
+      const e = grab("Engagements"), mn = grab("Mentions");
+      networks = Object.keys(e).map((k) => ({ network: k, engagements: e[k], mentions: mn[k] ?? null })).sort((a, b) => b.engagements - a.engagements);
+      creators = parseTable(sm.slice(sm.indexOf("| Creator"))).map((r) => ({ handle: (r.Creator.match(/@(\w+)/) ?? [])[1], followers: num((r.Followers ?? "").replace(/,/g, "")), posts: num(r.Posts), engagements: num((r.Engagements ?? "").replace(/,/g, "")) })).filter((r) => r.handle);
+    } catch (e) {
+      console.warn(`  ${t.label} summary: ${e.message}`);
+    }
     const sum = (k) => days.reduce((s, d) => s + (d[k] ?? 0), 0);
     const sent = days.filter((d) => d.sentiment != null);
     sov.push({
@@ -48,6 +68,8 @@ for (const c of cfg.chains) {
       contributorsDaily: Math.round(sum("contributors") / days.length),
       sentiment: sent.length ? Math.round(sent.reduce((s, d) => s + d.sentiment, 0) / sent.length) : null,
       series: days.map((d) => d.interactions),
+      daily: days.map((d) => ({ date: d.date, interactions: d.interactions, posts: d.posts, contributors: d.contributors, sentiment: d.sentiment })),
+      networks, creators, summaryDate,
     });
     console.log(`  ${t.label}: ${days.length} days`);
   }

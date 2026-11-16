@@ -1,10 +1,15 @@
 {
-  "note": "Coins compared on the Share of voice screen. Every row is the same kind of topic: LunarCrush's own coin topic for that chain's token. slug is the lunarcrush.ai topic path. Base has no token, so it has no coin topic and is not compared.",
+  "note": "Topics compared on the Share of voice screen. Each chain has the same two kinds of topic: 'ecosystem' (the chain plus the projects built on it) and 'ticker' (the coin). Base has no token, so it has no coin row. slug is the lunarcrush.ai topic path.",
   "chains": [
     {
       "chain": "BNB Chain",
       "self": true,
       "topics": [
+        {
+          "label": "BNB Chain ecosystem",
+          "slug": "bnb-chain-ecosystem",
+          "kind": "ecosystem"
+        },
         {
           "label": "BNB",
           "slug": "%24bnb",
@@ -16,6 +21,11 @@
       "chain": "Solana",
       "topics": [
         {
+          "label": "Solana ecosystem",
+          "slug": "solana-ecosystem",
+          "kind": "ecosystem"
+        },
+        {
           "label": "SOL",
           "slug": "solana",
           "kind": "ticker"
@@ -26,9 +36,24 @@
       "chain": "Sui",
       "topics": [
         {
+          "label": "Sui ecosystem",
+          "slug": "sui-ecosystem",
+          "kind": "ecosystem"
+        },
+        {
           "label": "SUI",
           "slug": "%24sui",
           "kind": "ticker"
+        }
+      ]
+    },
+    {
+      "chain": "Base",
+      "topics": [
+        {
+          "label": "Base ecosystem",
+          "slug": "base-ecosystem",
+          "kind": "ecosystem"
         }
       ]
     }

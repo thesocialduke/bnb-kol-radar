@@ -1,6 +1,6 @@
 import raw from "@/data/extras.json";
 
-export type SovRow = { chain: string; self: boolean; label: string; kind: "name" | "ticker"; note: string | null; days: number; from: string; to: string; interactions: number; posts: number; contributorsDaily: number; sentiment: number | null; series: number[] };
+export type SovRow = { chain: string; self: boolean; label: string; kind: "ecosystem" | "ticker"; note: string | null; days: number; from: string; to: string; interactions: number; posts: number; contributorsDaily: number; sentiment: number | null; series: number[]; daily: { date: string; interactions: number; posts: number | null; contributors: number | null; sentiment: number | null }[]; networks: { network: string; engagements: number; mentions: number | null }[]; creators: { handle: string; followers: number | null; posts: number | null; engagements: number | null }[]; summaryDate: string | null };
 export type Article = { title: string; outlet: string; domain: string; date: string; url: string; query: string };
 export const extras = raw as { sov: SovRow[]; news: { fetchedAt: string | null; queries: string[]; articles: Article[] } };
 

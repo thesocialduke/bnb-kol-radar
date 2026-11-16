@@ -14,7 +14,7 @@ ${ranked.length} independent accounts are ranked; ${officials.length} official a
 
 ## Data (static JSON)
 - [/data/leaderboard.json](/data/leaderboard.json): every ranked account with score, components, growth, language and flags
-- [/data/share-of-voice.json](/data/share-of-voice.json): ${extras.sov.length} topic series comparing BNB with SOL and SUI coin topics
+- [/data/share-of-voice.json](/data/share-of-voice.json): ${extras.sov.length} topic series comparing BNB Chain with Solana, Base and Sui (ecosystem and coin topics)
 - [/data/media.json](/data/media.json): ${extras.news.articles.length} news headlines with outlet and outlet group
 
 ## Pages

@@ -20,13 +20,22 @@ export default function Overview() {
     .map((a) => ({ handle: a.handle, name: a.name, value: a.bnb_engagements, share: (a.bnb_engagements / rankedEng) * 100 }));
   const ins = insights(ranked, officials);
   const top = ranked.slice(0, 5);
+  const eco = extras.sov.filter((r) => r.kind === "ecosystem");
+  const ecoMe = eco.find((r) => r.self);
+  const ecoTotal = eco.reduce((t, r) => t + r.interactions, 0);
+  const ecoRank = ecoMe ? [...eco].sort((a, b) => b.interactions - a.interactions).indexOf(ecoMe) + 1 : 0;
   const tick = extras.sov.filter((r) => r.kind === "ticker");
   const bnbT = tick.find((r) => r.self), solT = tick.find((r) => r.chain === "Solana"), suiT = tick.find((r) => r.chain === "Sui");
   const ms = mediaSummary();
   const lead = [
     ins[1],
-    bnbT && solT && suiT && bnbT.sentiment != null
-      ? { title: `BNB sentiment is ${bnbT.sentiment}% positive, against ${solT.sentiment}% for SOL and ${suiT.sentiment}% for SUI`, body: `Over 30 days BNB drew ${compact(bnbT.interactions)} engagements, ${(bnbT.interactions / suiT.interactions).toFixed(1)}x SUI, while SOL drew ${compact(solT.interactions)}. BNB trails both on the share of posts that are positive.`, href: "/share-of-voice", cta: "Open share of voice" }
+    ecoMe
+      ? {
+          title: `BNB Chain holds ${((ecoMe.interactions / ecoTotal) * 100).toFixed(0)}% of conversation across ${eco.length} ecosystems, ranked ${ecoRank} of ${eco.length}`,
+          body: `${compact(ecoMe.interactions)} engagements against ${eco.filter((r) => !r.self).sort((a, b) => b.interactions - a.interactions).map((r) => `${compact(r.interactions)} for ${r.chain}`).join(", ")}.${bnbT && solT && suiT && bnbT.sentiment != null ? ` On the coin alone, BNB sentiment is ${bnbT.sentiment}% positive against ${solT.sentiment}% for SOL and ${suiT.sentiment}% for SUI.` : ""}`,
+          href: "/share-of-voice",
+          cta: "Open share of voice",
+        }
       : null,
     ms.total
       ? { title: `${ms.tier1} of ${ms.total} news articles came from established crypto press`, body: `${ms.aggregator} came from aggregators, data pages or syndication and ${ms.trade} from trade press, across ${ms.outlets} outlets in 30 days. Original reporting is the thin part of the coverage.`, href: "/media", cta: "Open media coverage" }

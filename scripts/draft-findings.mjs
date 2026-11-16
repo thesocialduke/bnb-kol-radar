@@ -87,10 +87,17 @@ try {
   const ex = JSON.parse(fs.readFileSync(path.join(process.cwd(), "data/extras.json"), "utf8"));
   const oc = JSON.parse(fs.readFileSync(path.join(process.cwd(), "config/outlets.json"), "utf8"));
   const c = (n) => (n >= 1e6 ? (n / 1e6).toFixed(1) + "M" : n >= 1e3 ? (n / 1e3).toFixed(1) + "K" : String(n));
+  const eco = ex.sov.filter((r) => r.kind === "ecosystem");
+  const me = eco.find((r) => r.self);
+  if (me) {
+    const tot = eco.reduce((s, r) => s + r.interactions, 0);
+    const order = [...eco].sort((a, b) => b.interactions - a.interactions);
+    extraMd += `\n## Against Solana, Base and Sui (ecosystem topics)\n\n- **Share.** BNB Chain's ecosystem drew ${c(me.interactions)} engagements, ${((me.interactions / tot) * 100).toFixed(1)}% of the four, ranked ${order.indexOf(me) + 1} of ${eco.length} [${order.map((r) => `${r.chain} ${c(r.interactions)}`).join(", ")}].\n- **Sentiment.** ${eco.map((r) => `${r.chain} ${r.sentiment}%`).join(", ")} positive.\n`;
+  }
   const t = ex.sov.filter((r) => r.kind === "ticker");
   const b = t.find((r) => r.self), so = t.find((r) => r.chain === "Solana"), su = t.find((r) => r.chain === "Sui");
   if (b && so && su) {
-    extraMd += `\n## Against Solana and Sui (coin topics)\n\n- **Volume.** BNB drew ${c(b.interactions)} engagements in 30 days, ${(b.interactions / su.interactions).toFixed(1)}x SUI [${c(su.interactions)}]. SOL drew ${c(so.interactions)}, about ${Math.round(so.interactions / b.interactions)}x BNB.\n- **Sentiment is the gap.** BNB averaged ${b.sentiment}% positive against ${so.sentiment}% for SOL and ${su.sentiment}% for SUI. KOL briefs that only chase reach will not move this number.\n- **Per post.** BNB posts averaged ${Math.round(b.interactions / b.posts).toLocaleString("en-US")} engagements [${c(b.posts)} posts] against ${Math.round(so.interactions / so.posts).toLocaleString("en-US")} for Solana.\n`;
+    extraMd += `\n## Coin topics only\n\n- **Volume.** BNB drew ${c(b.interactions)} engagements in 30 days, ${(b.interactions / su.interactions).toFixed(1)}x SUI [${c(su.interactions)}]. SOL drew ${c(so.interactions)}, about ${Math.round(so.interactions / b.interactions)}x BNB.\n- **Sentiment is the gap.** BNB averaged ${b.sentiment}% positive against ${so.sentiment}% for SOL and ${su.sentiment}% for SUI. KOL briefs that only chase reach will not move this number.\n- **Per post.** BNB posts averaged ${Math.round(b.interactions / b.posts).toLocaleString("en-US")} engagements [${c(b.posts)} posts] against ${Math.round(so.interactions / so.posts).toLocaleString("en-US")} for Solana.\n`;
   }
   const a = ex.news.articles;
   if (a.length) {

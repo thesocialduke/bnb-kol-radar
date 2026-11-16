@@ -39,11 +39,16 @@ The idea: sign 15 to 20 of the rising accounts to a three-month retainer priced 
 
 *Draft only. Budget, creator rates and the launch calendar are not in the data and need to be added.*
 
-## Against Solana and Sui (coin topics)
+## Against Solana, Base and Sui (ecosystem topics)
 
-- **Volume.** BNB drew 30.2M engagements in 30 days, 1.5x SUI [20.4M]. SOL drew 760.2M, about 25x BNB.
-- **Sentiment is the gap.** BNB averaged 70% positive against 82% for SOL and 81% for SUI. KOL briefs that only chase reach will not move this number.
-- **Per post.** BNB posts averaged 1,169 engagements [25.8K posts] against 896 for Solana.
+- **Share.** BNB Chain's ecosystem drew 943.6M engagements, 22.6% of the four, ranked 2 of 4 [Solana 1998.0M, BNB Chain 943.6M, Base 839.5M, Sui 402.5M].
+- **Sentiment.** BNB Chain 81%, Solana 79%, Sui 82%, Base 80% positive.
+
+## Coin topics only
+
+- **Volume.** BNB drew 28.7M engagements in 30 days, 1.5x SUI [19.8M]. SOL drew 729.7M, about 25x BNB.
+- **Sentiment is the gap.** BNB averaged 71% positive against 82% for SOL and 81% for SUI. KOL briefs that only chase reach will not move this number.
+- **Per post.** BNB posts averaged 1,137 engagements [25.3K posts] against 894 for Solana.
 
 ## Media coverage
 
