@@ -14,7 +14,7 @@ function Table({ rows, caption }: { rows: SovRow[]; caption: string }) {
         <caption className="sr-only">{caption}</caption>
         <thead>
           <tr className="border-b border-line text-left">
-            {["Chain", "Topic", "Engagements, 30d", "Share", "Posts", "Daily contributors", "Sentiment", "Trend"].map((h, i) => (
+            {["Chain", "Coin", "Engagements, 30d", "Share", "Posts", "Daily contributors", "Positive sentiment", "Trend"].map((h, i) => (
               <th key={h} scope="col" className={`label px-3 py-2 font-normal ${i > 1 && i < 7 ? "text-right" : ""}`}>{h}</th>
             ))}
           </tr>
@@ -47,28 +47,22 @@ export default function ShareOfVoice() {
   const { sov } = extras;
   if (!sov.length) return <><p className="py-10 text-mute">No competitor series in this snapshot. Run npm run refresh.</p></>;
   const tickers = sov.filter((r) => r.kind === "ticker");
-  const names = sov.filter((r) => r.kind === "name");
   const bnb = tickers.find((r) => r.self)!;
   const sol = tickers.find((r) => r.chain === "Solana");
   const sui = tickers.find((r) => r.chain === "Sui");
-  const bnbName = names.find((r) => r.self)!;
-  const otherNames = names.filter((r) => !r.self);
   const perPost = (r: SovRow) => r.interactions / r.posts;
   return (
     <>
             <section className="pt-4">
         <StatGrid>
-          <Stat label="$bnb engagements, 30d" value={compact(bnb.interactions)} />
-          <Stat label="$bnb against $sui" value={sui ? `${(bnb.interactions / sui.interactions).toFixed(1)}x` : "n/a"} />
-          <Stat label="Engagements per post, $bnb" value={full(Math.round(perPost(bnb)))} />
-          <Stat label="Sentiment, $bnb" value={bnb.sentiment != null ? `${bnb.sentiment}%` : "n/a"} />
+          <Stat label="BNB engagements, 30d" value={compact(bnb.interactions)} />
+          <Stat label="BNB against SUI" value={sui ? `${(bnb.interactions / sui.interactions).toFixed(1)}x` : "n/a"} />
+          <Stat label="Engagements per post, BNB" value={full(Math.round(perPost(bnb)))} />
+          <Stat label="Positive sentiment, BNB" value={bnb.sentiment != null ? `${bnb.sentiment}%` : "n/a"} />
         </StatGrid>
       </section>
-      <Panel className="mt-4" title="Ticker conversation" flush>
-        <Table rows={tickers} caption="Ticker topics compared" />
-      </Panel>
-      <Panel className="mt-4" title="Chain-name conversation" flush>
-        <Table rows={names} caption="Chain-name topics compared" />
+      <Panel className="mt-4" title="Coin conversation, 30 days" flush lead>
+        <Table rows={tickers} caption="Coin topics compared" />
       </Panel>
     </>
   );

@@ -1,10 +1,41 @@
 {
-  "note": "Topics compared on the Share of voice screen. slug is the lunarcrush.ai topic path. kind: 'ticker' = cashtag topic, 'name' = chain-name topic. Plain 'base', 'sui' and 'bnb' are left out because those words also match unrelated posts.",
+  "note": "Coins compared on the Share of voice screen. Every row is the same kind of topic: LunarCrush's own coin topic for that chain's token. slug is the lunarcrush.ai topic path. Base has no token, so it has no coin topic and is not compared.",
   "chains": [
-    { "chain": "BNB Chain", "self": true, "topics": [ { "label": "bnb chain", "slug": "bnb-chain", "kind": "name" }, { "label": "$bnb", "slug": "%24bnb", "kind": "ticker" } ] },
-    { "chain": "Solana", "topics": [ { "label": "solana / $sol", "slug": "solana", "kind": "ticker", "note": "LunarCrush returns one merged series for the name and the ticker" } ] },
-    { "chain": "Sui", "topics": [ { "label": "sui network", "slug": "sui-network", "kind": "name" }, { "label": "$sui", "slug": "%24sui", "kind": "ticker" } ] },
-    { "chain": "Base", "topics": [ { "label": "base network", "slug": "base-network", "kind": "name" }, { "label": "base chain", "slug": "base-chain", "kind": "name" } ] }
+    {
+      "chain": "BNB Chain",
+      "self": true,
+      "topics": [
+        {
+          "label": "BNB",
+          "slug": "%24bnb",
+          "kind": "ticker"
+        }
+      ]
+    },
+    {
+      "chain": "Solana",
+      "topics": [
+        {
+          "label": "SOL",
+          "slug": "solana",
+          "kind": "ticker"
+        }
+      ]
+    },
+    {
+      "chain": "Sui",
+      "topics": [
+        {
+          "label": "SUI",
+          "slug": "%24sui",
+          "kind": "ticker"
+        }
+      ]
+    }
   ],
-  "newsQueries": ["BNB Chain", "BNB Smart Chain", "opBNB"]
+  "newsQueries": [
+    "BNB Chain",
+    "BNB Smart Chain",
+    "opBNB"
+  ]
 }

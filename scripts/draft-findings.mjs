@@ -90,7 +90,7 @@ try {
   const t = ex.sov.filter((r) => r.kind === "ticker");
   const b = t.find((r) => r.self), so = t.find((r) => r.chain === "Solana"), su = t.find((r) => r.chain === "Sui");
   if (b && so && su) {
-    extraMd += `\n## Against Solana and Sui\n\n- **Volume.** $bnb drew ${c(b.interactions)} engagements in 30 days, ${(b.interactions / su.interactions).toFixed(1)}x $sui [${c(su.interactions)}]. Solana's topic drew ${c(so.interactions)}, about ${Math.round(so.interactions / b.interactions)}x $bnb, though that series also counts every mention of the name.\n- **Sentiment is the gap.** $bnb averaged ${b.sentiment}% positive against ${so.sentiment}% for Solana and ${su.sentiment}% for $sui. KOL briefs that only chase reach will not move this number.\n- **Per post.** $bnb posts averaged ${Math.round(b.interactions / b.posts).toLocaleString("en-US")} engagements [${c(b.posts)} posts] against ${Math.round(so.interactions / so.posts).toLocaleString("en-US")} for Solana.\n`;
+    extraMd += `\n## Against Solana and Sui (coin topics)\n\n- **Volume.** BNB drew ${c(b.interactions)} engagements in 30 days, ${(b.interactions / su.interactions).toFixed(1)}x SUI [${c(su.interactions)}]. SOL drew ${c(so.interactions)}, about ${Math.round(so.interactions / b.interactions)}x BNB.\n- **Sentiment is the gap.** BNB averaged ${b.sentiment}% positive against ${so.sentiment}% for SOL and ${su.sentiment}% for SUI. KOL briefs that only chase reach will not move this number.\n- **Per post.** BNB posts averaged ${Math.round(b.interactions / b.posts).toLocaleString("en-US")} engagements [${c(b.posts)} posts] against ${Math.round(so.interactions / so.posts).toLocaleString("en-US")} for Solana.\n`;
   }
   const a = ex.news.articles;
   if (a.length) {

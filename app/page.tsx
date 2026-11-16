@@ -26,15 +26,16 @@ export default function Overview() {
   const lead = [
     ins[1],
     bnbT && solT && suiT && bnbT.sentiment != null
-      ? { title: `$bnb sentiment is ${bnbT.sentiment}%, against ${solT.sentiment}% for Solana and ${suiT.sentiment}% for $sui`, body: `Over 30 days $bnb drew ${compact(bnbT.interactions)} engagements, ${(bnbT.interactions / suiT.interactions).toFixed(1)}x $sui, while Solana's topic drew ${compact(solT.interactions)}. BNB holds its ground on volume against Sui and trails both on how positively people talk about it.`, href: "/share-of-voice", cta: "Open share of voice" }
+      ? { title: `BNB sentiment is ${bnbT.sentiment}% positive, against ${solT.sentiment}% for SOL and ${suiT.sentiment}% for SUI`, body: `Over 30 days BNB drew ${compact(bnbT.interactions)} engagements, ${(bnbT.interactions / suiT.interactions).toFixed(1)}x SUI, while SOL drew ${compact(solT.interactions)}. BNB trails both on the share of posts that are positive.`, href: "/share-of-voice", cta: "Open share of voice" }
       : null,
     ms.total
       ? { title: `${ms.tier1} of ${ms.total} news articles came from established crypto press`, body: `${ms.aggregator} came from aggregators, data pages or syndication and ${ms.trade} from trade press, across ${ms.outlets} outlets in 30 days. Original reporting is the thin part of the coverage.`, href: "/media", cta: "Open media coverage" }
       : null,
   ].filter((x): x is NonNullable<typeof x> => !!x);
-  const hero = lead.find((i) => i.href === "/share-of-voice") ?? null;
+  const hero = lead.find((i) => i.href === "/rising") ?? null;
   const rest = [...lead.filter((i) => i !== hero), ins[0], ins[2]].filter(Boolean);
-  const sentimentRows = [bnbT, solT, suiT].filter((r) => r && r.sentiment != null).map((r) => ({ label: r!.self ? "$bnb" : r!.chain === "Solana" ? "Solana" : "$sui", value: r!.sentiment!, self: r!.self }));
+  const risers = ranked.filter((a) => a.is_rising && a.follower_growth_pct != null).sort((a, b) => b.follower_growth_pct! - a.follower_growth_pct!).slice(0, 5);
+  const maxGrowth = Math.max(...risers.map((a) => a.follower_growth_pct!), 1);
 
   return (
     <>
@@ -44,12 +45,15 @@ export default function Overview() {
           {hero ? (
             <article className="min-w-0 bg-panel p-5">
               <h2 className="max-w-[26ch] text-[22px] font-semibold leading-tight tracking-tight">{hero.title}</h2>
-              <ul className="mt-5 flex max-w-[460px] flex-col gap-2.5">
-                {sentimentRows.map((r) => (
-                  <li key={r.label} className="grid grid-cols-[64px_1fr_40px] items-center gap-3 text-[13px]">
-                    <span className={r.self ? "font-semibold" : "text-mute"}>{r.label}</span>
-                    <span className="block h-2 bg-raise"><span className="block h-full" style={{ width: `${r.value}%`, background: r.self ? "var(--color-accent)" : "var(--color-dim)" }} /></span>
-                    <span className="num text-right">{r.value}%</span>
+              <ul className="mt-5 flex max-w-[520px] flex-col">
+                {risers.map((a) => (
+                  <li key={a.handle} className="border-b border-line/70 last:border-0">
+                    <Link href={`/account/${a.handle}`} className="grid grid-cols-[auto_minmax(0,1fr)_minmax(60px,120px)_56px] items-center gap-3 py-1.5 text-[13px] hover:bg-raise">
+                      <Avatar src={a.avatar} handle={a.handle} size={24} />
+                      <span className="truncate"><span className="font-medium">{a.name ?? a.handle}</span> <span className="num text-[11.5px] text-dim">{compact(a.followers)}</span></span>
+                      <span className="block h-1.5 bg-raise"><span className="block h-full bg-accent" style={{ width: `${Math.max(2, (a.follower_growth_pct! / maxGrowth) * 100)}%` }} /></span>
+                      <span className="num text-right">+{a.follower_growth_pct!.toFixed(0)}%</span>
+                    </Link>
                   </li>
                 ))}
               </ul>

@@ -39,11 +39,11 @@ The idea: sign 15 to 20 of the rising accounts to a three-month retainer priced 
 
 *Draft only. Budget, creator rates and the launch calendar are not in the data and need to be added.*
 
-## Against Solana and Sui
+## Against Solana and Sui (coin topics)
 
-- **Volume.** $bnb drew 30.2M engagements in 30 days, 1.5x $sui [20.4M]. Solana's topic drew 760.2M, about 25x $bnb, though that series also counts every mention of the name.
-- **Sentiment is the gap.** $bnb averaged 70% positive against 82% for Solana and 81% for $sui. KOL briefs that only chase reach will not move this number.
-- **Per post.** $bnb posts averaged 1,169 engagements [25.8K posts] against 896 for Solana.
+- **Volume.** BNB drew 30.2M engagements in 30 days, 1.5x SUI [20.4M]. SOL drew 760.2M, about 25x BNB.
+- **Sentiment is the gap.** BNB averaged 70% positive against 82% for SOL and 81% for SUI. KOL briefs that only chase reach will not move this number.
+- **Per post.** BNB posts averaged 1,169 engagements [25.8K posts] against 896 for Solana.
 
 ## Media coverage
 
