@@ -73,9 +73,9 @@ export function StatGrid({ children }: { children: React.ReactNode }) {
   return <div className="grid grid-cols-2 gap-px panel bg-line md:grid-cols-4">{children}</div>;
 }
 
-export function Panel({ title, readout, children, className = "", flush = false }: { title: string; readout?: React.ReactNode; children: React.ReactNode; className?: string; flush?: boolean }) {
+export function Panel({ title, readout, children, className = "", flush = false, lead = false }: { title: string; readout?: React.ReactNode; children: React.ReactNode; className?: string; flush?: boolean; lead?: boolean }) {
   return (
-    <section className={`panel min-w-0 bg-panel ${className}`}>
+    <section className={`panel min-w-0 bg-panel ${lead ? "panel-lead" : ""} ${className}`}>
       <div className="panel-head">
         <h2>{title}</h2>
         {readout ? <div className="readout">{readout}</div> : null}

@@ -32,22 +32,41 @@ export default function Overview() {
       ? { title: `${ms.tier1} of ${ms.total} news articles came from established crypto press`, body: `${ms.aggregator} came from aggregators, data pages or syndication and ${ms.trade} from trade press, across ${ms.outlets} outlets in 30 days. Original reporting is the thin part of the coverage.`, href: "/media", cta: "Open media coverage" }
       : null,
   ].filter((x): x is NonNullable<typeof x> => !!x);
-  const also = [ins[0], ins[2]].filter(Boolean);
+  const hero = lead.find((i) => i.href === "/share-of-voice") ?? null;
+  const rest = [...lead.filter((i) => i !== hero), ins[0], ins[2]].filter(Boolean);
+  const sentimentRows = [bnbT, solT, suiT].filter((r) => r && r.sentiment != null).map((r) => ({ label: r!.self ? "$bnb" : r!.chain === "Solana" ? "Solana" : "$sui", value: r!.sentiment!, self: r!.self }));
 
   return (
     <>
       
-      <Panel className="mt-4" title="Three things to act on" flush>
-        <div className="grid gap-px bg-line md:grid-cols-3">
-          {lead.map((i) => (
-            <article key={i.title} className="flex min-w-0 flex-col bg-panel p-4">
-              <h3 className="text-[15px] font-semibold leading-snug">{i.title}</h3>
-              <p className="mt-2 flex-1 text-[13px] text-mute">{i.body}</p>
-              <Link href={i.href} className="mt-3 text-[13px] text-accent underline underline-offset-4">
-                {i.cta}
-              </Link>
+      <Panel className="mt-4" title="What to act on" flush lead>
+        <div className="grid gap-px bg-line lg:grid-cols-[5fr_4fr]">
+          {hero ? (
+            <article className="min-w-0 bg-panel p-5">
+              <h2 className="max-w-[26ch] text-[22px] font-semibold leading-tight tracking-tight">{hero.title}</h2>
+              <ul className="mt-5 flex max-w-[460px] flex-col gap-2.5">
+                {sentimentRows.map((r) => (
+                  <li key={r.label} className="grid grid-cols-[64px_1fr_40px] items-center gap-3 text-[13px]">
+                    <span className={r.self ? "font-semibold" : "text-mute"}>{r.label}</span>
+                    <span className="block h-2 bg-raise"><span className="block h-full" style={{ width: `${r.value}%`, background: r.self ? "var(--color-accent)" : "var(--color-dim)" }} /></span>
+                    <span className="num text-right">{r.value}%</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-5 max-w-[62ch] text-[13.5px] text-mute">{hero.body}</p>
+              <Link href={hero.href} className="mt-3 inline-block text-[13px] text-accent underline underline-offset-4">{hero.cta}</Link>
             </article>
-          ))}
+          ) : null}
+          <ul className="flex min-w-0 flex-col gap-px bg-line">
+            {rest.map((i) => (
+              <li key={i.title} className="flex-1 bg-panel">
+                <Link href={i.href} className="block h-full px-5 py-3.5 hover:bg-raise">
+                  <span className="block text-[14px] font-semibold leading-snug">{i.title}</span>
+                  <span className="mt-1 block text-[12.5px] text-mute">{i.body}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </Panel>
 
@@ -62,20 +81,6 @@ export default function Overview() {
 
       <Panel className="mt-4" title="Mindshare" flush>
         <Treemap items={tree} />
-      </Panel>
-
-      <Panel className="mt-4" title="Also in the data" flush>
-        <div className="grid gap-px bg-line md:grid-cols-2">
-          {also.map((i) => (
-            <article key={i.title} className="flex min-w-0 flex-col bg-panel p-4">
-              <h3 className="text-[15px] font-semibold leading-snug">{i.title}</h3>
-              <p className="mt-2 flex-1 text-[13px] text-mute">{i.body}</p>
-              <Link href={i.href} className="mt-3 text-[13px] text-accent underline underline-offset-4">
-                {i.cta}
-              </Link>
-            </article>
-          ))}
-        </div>
       </Panel>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-[3fr_2fr]">

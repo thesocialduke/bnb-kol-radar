@@ -40,12 +40,12 @@ export default function Rising() {
                 </div>
                 <div className="hidden text-right md:block">
                   <div className="label !text-[10px]">Score</div>
-                  <span className="num font-medium text-accent">{a.score!.toFixed(1)}</span>
+                  <span className="num font-semibold text-ink">{a.score!.toFixed(1)}</span>
                 </div>
                 <p className="col-span-2 text-[12.5px] text-mute md:col-span-1">
                   <span className="mr-2 inline-flex items-center gap-2 align-middle md:hidden">
                     <Sparkline values={(ts.get(a.handle) ?? []).map((r) => r.followers ?? 0).filter((v) => v > 0)} width={64} height={18} />
-                    <span className="num text-accent">{a.score!.toFixed(1)}</span>
+                    <span className="num font-semibold text-ink">{a.score!.toFixed(1)}</span>
                   </span>
                   Flagged because {a.rising_reason}
                 </p>

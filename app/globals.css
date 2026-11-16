@@ -62,8 +62,7 @@ body {
 }
 
 .label {
-  font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--color-dim);
 }
 
@@ -186,7 +185,7 @@ textarea:focus-visible {
   }
 }
 
-/* ---------- FUI layer: kept light. Hairline panels with two corner ticks, a faint
+/* ---------- FUI layer: kept light. Hairline panels, corner ticks on the one lead panel per screen, a faint
    dot field on the canvas, segmented meters. No glow, no scanlines, no blinking:
    this is a fixed snapshot, so nothing on screen pretends to be live. ---------- */
 
@@ -200,8 +199,8 @@ textarea:focus-visible {
   border: 1px solid var(--color-line);
   border-radius: 2px;
 }
-.panel::before,
-.panel::after {
+.panel-lead::before,
+.panel-lead::after {
   content: "";
   position: absolute;
   width: 9px;
@@ -210,12 +209,12 @@ textarea:focus-visible {
   z-index: 2;
   border: 0 solid rgb(240 185 11 / 0.7);
 }
-.panel::before {
+.panel-lead::before {
   top: -1px;
   left: -1px;
   border-width: 1px 0 0 1px;
 }
-.panel::after {
+.panel-lead::after {
   right: -1px;
   bottom: -1px;
   border-width: 0 1px 1px 0;
@@ -239,8 +238,7 @@ textarea:focus-visible {
   font-weight: 600;
 }
 .readout {
-  font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   font-variant-numeric: tabular-nums;
   color: var(--color-dim);
 }

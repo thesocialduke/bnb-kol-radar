@@ -98,7 +98,7 @@ export default async function AccountPage({ params }: { params: Promise<{ handle
               <a href={`https://x.com/${a.handle}`} target="_blank" rel="noreferrer" className="num text-accent hover:underline">@{a.handle} ↗</a>
               <span>{langName(a.lang)}</span>
               <span>{TIER_LABEL[a.tier]} followers</span>
-              {a.is_rising ? <span className="num rounded-sm bg-accent/15 px-1.5 py-px text-[10px] uppercase tracking-wide text-accent">Rising</span> : null}
+              {a.is_rising ? <span className="num rounded-sm bg-accent/15 px-1.5 py-px text-[11px] text-ink">Rising</span> : null}
             </div>
             {about ? (
               <p className="mt-2 max-w-[70ch] text-[13px] text-mute">

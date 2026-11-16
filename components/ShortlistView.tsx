@@ -105,7 +105,7 @@ export function ShortlistView({ rows }: { rows: Row[] }) {
               <span className="min-w-0">
                 <span className="block truncate font-medium">{r!.name ?? handle}</span>
                 <span className="num block truncate text-[11.5px] text-dim">
-                  @{handle} · score <span className="text-accent">{r!.score.toFixed(1)}</span> · {compact(r!.followers)} · {pct(r!.growth)}
+                  @{handle} · score <span className="text-ink">{r!.score.toFixed(1)}</span> · {compact(r!.followers)} · {pct(r!.growth)}
                 </span>
               </span>
             </Link>

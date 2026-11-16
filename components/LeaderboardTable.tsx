@@ -131,13 +131,13 @@ export function LeaderboardTable({ rows, lockLang }: { rows: Row[]; lockLang?: s
                       <span className="flex items-center gap-1.5">
                         <span className="truncate font-medium text-ink">{r.name ?? r.handle}</span>
                         <LangTag lang={r.lang} />
-                        {r.rising ? <span className="num hidden shrink-0 rounded-sm bg-accent/15 px-1.5 py-px text-[10px] uppercase tracking-wide text-accent sm:inline">Rising</span> : null}
+                        {r.rising ? <span className="num hidden shrink-0 rounded-sm bg-accent/15 px-1.5 py-px text-[11px] text-ink sm:inline">Rising</span> : null}
                       </span>
                       <span className="num block truncate text-[11.5px] text-dim">{r.kind === "brand" ? <span className="mr-1.5 text-warn">Brand</span> : null}@{r.handle}<span className="sm:hidden"> · {compact(r.followers)}</span></span>
                     </span>
                   </Link>
                 </td>
-                <td className="num px-2 py-1.5 text-right text-[14px] font-medium text-accent">{r.score.toFixed(1)}</td>
+                <td className="num px-2 py-1.5 text-right text-[14px] font-semibold text-ink">{r.score.toFixed(1)}</td>
                 <td className="num hidden px-2 py-1.5 text-right sm:table-cell">{compact(r.followers)}</td>
                 <td className={`num hidden px-2 py-1.5 text-right sm:table-cell ${r.growth == null ? "text-dim" : r.growth > 0.05 ? "text-up" : r.growth < -0.05 ? "text-down" : "text-mute"}`}>{pct(r.growth)}</td>
                 <td className="num hidden px-2 py-1.5 text-right md:table-cell">{compact(r.bnbEng)}</td>
