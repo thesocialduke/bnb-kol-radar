@@ -42,6 +42,17 @@ export function Shell({ asOf, accounts, posts, footer, children }: { asOf: strin
   const path = usePathname();
   const [collapsed, setCollapsed] = useState(false);
   const [open, setOpen] = useState(false);
+  const [light, setLight] = useState(false);
+  useEffect(() => setLight(document.documentElement.dataset.theme === "light"), []);
+  const flipTheme = () => {
+    const next = !light;
+    setLight(next);
+    if (next) document.documentElement.dataset.theme = "light";
+    else delete document.documentElement.dataset.theme;
+    try {
+      window.localStorage.setItem("kol-radar-theme", next ? "light" : "dark");
+    } catch {}
+  };
 
   useEffect(() => {
     try {
@@ -144,6 +155,13 @@ export function Shell({ asOf, accounts, posts, footer, children }: { asOf: strin
             <span>
               Data as of <span className="text-ink">{asOf}</span>
             </span>
+            <button type="button" onClick={flipTheme} aria-pressed={light} className="flex h-8 items-center gap-1.5 rounded-sm border border-line px-2 text-mute hover:bg-raise hover:text-ink">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
+                {light ? <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" /> : <><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></>}
+              </svg>
+              <span className="hidden sm:inline">{light ? "Dark view" : "Light view"}</span>
+              <span className="sr-only sm:hidden">{light ? "Dark view" : "Light view"}</span>
+            </button>
           </div>
         </header>
         <main className="mx-auto w-full max-w-[1360px] flex-1 px-4 pb-14 lg:px-6">{children}</main>

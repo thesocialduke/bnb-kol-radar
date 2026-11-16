@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: "Who drives BNB Chain conversation on X, scored on real 30-day data, with the emerging accounts worth approaching first.",
 };
 
-export const viewport: Viewport = { themeColor: "#000000", colorScheme: "dark" };
+export const viewport: Viewport = { themeColor: "#000000" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const { meta, ranked } = snapshot();
@@ -32,7 +32,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </p>
   );
   return (
-    <html lang="en" className={`${sans.variable} ${mono.variable} antialiased`}>
+    <html lang="en" className={`${sans.variable} ${mono.variable} antialiased`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `try{if(/[?&]theme=light/.test(location.search)||localStorage.getItem("kol-radar-theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}` }} />
+      </head>
       <body>
         <Shell asOf={longDate(meta.as_of)} accounts={ranked.length} posts={full(Number(meta.corpus_posts))} footer={footer}>
           {children}

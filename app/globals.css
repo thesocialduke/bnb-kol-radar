@@ -2,7 +2,7 @@
 
 /* Layout: a dense trading-terminal shell. One sticky bar, full-width tables, mono numerals.
    Neutrals lean warm toward the single accent, BNB yellow. Single dark theme by choice. */
-@theme inline {
+@theme {
   --color-bg: #000000;
   --color-panel: #0a0a09;
   --color-raise: #161512;
@@ -20,6 +20,27 @@
 
 :root {
   color-scheme: dark;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-bg: #f6f5f0;
+  --color-panel: #ffffff;
+  --color-raise: #eeece4;
+  --color-line: #dad6ca;
+  --color-ink: #1a1812;
+  --color-mute: #5a5548;
+  --color-dim: #787264;
+  --color-up: #17804e;
+  --color-down: #c5363a;
+  --color-warn: #b25510;
+}
+/* BNB yellow is too pale for text on a light surface; text uses a darker amber, fills stay yellow. */
+:root[data-theme="light"] .text-accent,
+:root[data-theme="light"] [class*="text-accent"] {
+  color: #8a6400 !important;
+}
+.bg-accent.text-bg {
+  color: #17130a;
 }
 
 html {
@@ -170,7 +191,7 @@ textarea:focus-visible {
    this is a fixed snapshot, so nothing on screen pretends to be live. ---------- */
 
 .canvas {
-  background-image: radial-gradient(circle, rgb(236 232 220 / 0.045) 1px, transparent 1px);
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--color-ink) 6%, transparent) 1px, transparent 1px);
   background-size: 22px 22px;
 }
 
