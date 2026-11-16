@@ -55,9 +55,11 @@ function squarify(items: Item[], W: number, H: number): Rect[] {
 
 export function Treemap({ items }: { items: Item[] }) {
   const rects = squarify(items, 100, 100);
+  const max = Math.max(...items.map((i) => i.value));
   return (
     <div className="relative aspect-[4/5] w-full overflow-hidden bg-bg sm:aspect-[16/9] lg:aspect-[21/9]">
       {rects.map((r) => {
+        const t = Math.sqrt(r.value / max);
         const big = r.w > 9 && r.h > 12;
         const mid = r.w > 5.5 && r.h > 7;
         return (
@@ -71,8 +73,8 @@ export function Treemap({ items }: { items: Item[] }) {
               top: `${r.y}%`,
               width: `${r.w}%`,
               height: `${r.h}%`,
-              background: "color-mix(in oklab, var(--color-accent) 16%, var(--color-panel))",
-              color: "var(--color-ink)",
+              background: `color-mix(in oklab, var(--color-accent) ${Math.round(10 + t * 78)}%, var(--color-panel))`,
+              color: t > 0.5 ? "#17130a" : "var(--color-ink)",
             }}
           >
             {mid ? (
